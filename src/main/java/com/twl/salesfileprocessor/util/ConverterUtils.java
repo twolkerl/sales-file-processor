@@ -20,7 +20,7 @@ public class ConverterUtils {
     /**
      * Converte os campos do arquivo para um {@link Vendedor}.
      *
-     * @param fields Campos recebidos no arquivo. Devem ser recebidos na seguinte ordem:
+     * @param fields Campos recebidos no arquivo. Devem ser recebidos na seguinte ordem separados por <b>vírgula</b>:
      *               <ul>
      *                  <li>
      *                      [0] = Tipo
@@ -44,7 +44,7 @@ public class ConverterUtils {
     /**
      * Converte os campos do arquivo para um {@link Cliente}.
      *
-     * @param fields Campos recebidos no arquivo. Devem ser recebidos na seguinte ordem:
+     * @param fields Campos recebidos no arquivo. Devem ser recebidos na seguinte ordem separados por <b>vírgula</b>:
      *               <ul>
      *                  <li>
      *                      [0] = Tipo
@@ -65,6 +65,27 @@ public class ConverterUtils {
         return new Cliente(fields[1], fields[2], fields[3]);
     }
 
+
+    /**
+     * Converte os campos do arquivo para um {@link Venda}.
+     *
+     * @param fields Campos recebidos no arquivo. Devem ser recebidos na seguinte ordem separados por <b>vírgula</b>:
+     *               <ul>
+     *                  <li>
+     *                      [0] = Tipo
+     *                  </li>
+     *                  <li>
+     *                      [1] = ID da Venda
+     *                  </li>
+     *                  <li>
+     *                      [2] = Itens da venda [ID do Item-Qtd Item-Preço Item, ...]
+     *                  </li>
+     *                  <li>
+     *                      [3] = Nome do Vendedor
+     *                  </li>
+     *               </ul>
+     * @return {@link Venda}
+     */
     public static Venda convertToVenda(String[] fields) {
 
         String itemStr = fields[2];
@@ -76,16 +97,33 @@ public class ConverterUtils {
         return new Venda(Long.valueOf(fields[1]), itemList, fields[3]);
     }
 
+
+    /**
+     * Converte os campos do arquivo para um {@link Item} pertencente à {@link Venda}.
+     *
+     * @param itemArray Campos recebidos no arquivo. Devem ser recebidos na seguinte ordem separados por <b>hífen</b>:
+     *               <ul>
+     *                  <li>
+     *                      [0] = ID do Item
+     *                  </li>
+     *                  <li>
+     *                      [1] = Qtd Item
+     *                  </li>
+     *                  <li>
+     *                      [2] = Preço Item
+     *                  </li>
+     *               </ul>
+     * @return {@link Item} pertencente à {@link Venda}
+     */
     public static List<Item> convertToItens(String[] itemArray) {
 
         List<Item> itens = new ArrayList<>();
 
-        // FIXME o primeiro e ultimo campos estão com um colchete, necessário ajustar
         for (int i = 0; i < 3; i++) {
             String[] itemFields = itemArray[i].split("-");
-            itens.add(new Item(Long.valueOf(itemFields[0]),
+            itens.add(new Item(Long.valueOf(itemFields[0].replaceAll("[\\[\\]]", "")),
                     Integer.valueOf(itemFields[1]),
-                    new BigDecimal(itemFields[2])));
+                    new BigDecimal(itemFields[2].replaceAll("[\\[\\]]", ""))));
         }
 
         return itens;

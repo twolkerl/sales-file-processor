@@ -1,6 +1,7 @@
 package com.twl.salesfileprocessor.service.impl;
 
 import com.twl.salesfileprocessor.model.Vendedor;
+import com.twl.salesfileprocessor.repository.VendedorRepository;
 import com.twl.salesfileprocessor.service.VendedorService;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +13,15 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class VendedorServiceImpl implements VendedorService {
+
+    private final VendedorRepository repository;
+
+    public VendedorServiceImpl(VendedorRepository repository) {
+        this.repository = repository;
+    }
+
     @Override
     public void save(Vendedor vendedor) {
-        //TODO criar repository e chamar método save
+        repository.save(vendedor);
     }
 }

@@ -7,4 +7,10 @@ package com.twl.salesfileprocessor.service;
  * @since 22/09/2019
  */
 public interface OutputFileService {
+
+    /**
+     * Cria o relatório na pasta de saída conforme os dados obtidos no arquivo de entrada.
+     * Após o término da criação do relatório a base é redefinida.
+     */
+    void createReport();
 }

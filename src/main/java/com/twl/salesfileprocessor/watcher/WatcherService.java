@@ -1,23 +1,34 @@
 package com.twl.salesfileprocessor.watcher;
 
+import com.twl.salesfileprocessor.service.InputFileService;
+import com.twl.salesfileprocessor.service.OutputFileService;
 import com.twl.salesfileprocessor.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 
+/**
+ * Serviço observador dos diretórios de entrada e saída.
+ *
+ * @author tiago.wolker
+ * @since 21/09/2019
+ */
 @Component
 public class WatcherService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WatcherService.class);
+
+    private final InputFileService inputFileService;
+    private final OutputFileService outputFileService;
+
+    public WatcherService(InputFileService inputFileService, OutputFileService outputFileService) {
+        this.inputFileService = inputFileService;
+        this.outputFileService = outputFileService;
+    }
 
     @Value("${file.in}")
     private String fileIn;
@@ -28,33 +39,32 @@ public class WatcherService {
 
         try (WatchService watchService = FileSystems.getDefault().newWatchService()) {
 
-            Map<WatchKey, Path> keyMap = new HashMap<>();
             Path path = Paths.get(fileIn);
-            keyMap.put(path.register(watchService,
-                    StandardWatchEventKinds.ENTRY_CREATE),
-                    path);
+            path.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
 
             WatchKey watchKey;
 
             do {
                 watchKey = watchService.take();
-                Path eventDir = keyMap.get(watchKey);
+//                Path eventDir = keyMap.get(watchKey);
 
                 for (WatchEvent<?> event : watchKey.pollEvents()) {
-//                    WatchEvent.Kind<?> kind = event.kind();
                     Path eventPath = (Path) event.context();
 
-                    // TODO Fazer o método de processamento a partir daqui
                     if (eventPath.toString().endsWith(".txt")) {
 
-                        LOGGER.info("Iniciando a leitura do arquivo: " + eventPath);
+                        LOGGER.info("Iniciando a leitura e processamento do arquivo: " + eventPath);
                         Stream<String> lines = FileUtils.read(fileIn, eventPath.toString());
-                        LOGGER.info("Finalizada a leitura do arquivo: " + eventPath);
+                        inputFileService.process(lines);
+                        LOGGER.info("Finalizada a leitura e processamento do arquivo: " + eventPath);
 
                     } else {
                         LOGGER.info("##Extensão não válida");
                     }
                 }
+
+                // TODO fazer o output aqui
+//                outp
 
             } while (watchKey.reset());
         } catch (Exception e) {

@@ -47,6 +47,6 @@ public class FileUtils {
         }
 
         // Por fim, valida se a primeira String contém 3 dígitos.
-        return fields[1].length() == 3;
+        return fields[0].length() == 3;
     }
 }
