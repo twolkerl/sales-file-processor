@@ -61,10 +61,9 @@ public class WatcherService {
                     } else {
                         LOGGER.info("##Extensão não válida");
                     }
-                }
 
-                // TODO fazer o output aqui
-//                outp
+                    outputFileService.createReport(eventPath.toString());
+                }
 
             } while (watchKey.reset());
         } catch (Exception e) {

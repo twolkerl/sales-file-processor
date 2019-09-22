@@ -11,6 +11,8 @@ public interface OutputFileService {
     /**
      * Cria o relatório na pasta de saída conforme os dados obtidos no arquivo de entrada.
      * Após o término da criação do relatório a base é redefinida.
+     *
+     * @param fileName Nome do arquivo
      */
-    void createReport();
+    void createReport(String fileName);
 }

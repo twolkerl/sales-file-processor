@@ -42,14 +42,14 @@ public class ReportBuilder {
     /**
      * Monta a quantidade de clientes no relatório.
      *
-     * @param amount Quantidade de clientes
+     * @param quantidadeClientes Quantidade de clientes
      * @return {@link ReportBuilder}
      */
-    public ReportBuilder withQuantidadeClientes(Long amount) {
+    public ReportBuilder withQuantidadeClientes(Long quantidadeClientes) {
 
-        if (amount > 0) {
+        if (quantidadeClientes > 0) {
             builder.append("Quantidade de clientes no arquivo de entrada: ")
-                    .append(amount)
+                    .append(quantidadeClientes)
                     .append(System.getProperty("line.separator"));
         }
         return this;
@@ -58,14 +58,14 @@ public class ReportBuilder {
     /**
      * Monta a quantidade de vendedores no relatório.
      *
-     * @param amount Quantidade de vendedores
+     * @param quantidadeVendedores Quantidade de vendedores
      * @return {@link ReportBuilder}
      */
-    public ReportBuilder withQuantidadeVendedores(Long amount) {
+    public ReportBuilder withQuantidadeVendedores(Long quantidadeVendedores) {
 
-        if (amount > 0) {
+        if (quantidadeVendedores > 0) {
             builder.append("Quantidade de vendedores no arquivo de entrada: ")
-                    .append(amount)
+                    .append(quantidadeVendedores)
                     .append(System.getProperty("line.separator"));
         }
         return this;
@@ -88,12 +88,12 @@ public class ReportBuilder {
     /**
      * Monta o pior vendedor no relatório.
      *
-     * @param sales Vendas informadas no arquivo de entrada
+     * @param venda Venda com o pior vendedor
      * @return {@link ReportBuilder}
      */
-    public ReportBuilder withPiorVendedor(Optional<List<Venda>> sales) {
-        sales.ifPresent(saleList -> builder.append("O pior vendedor: ")
-                .append(saleList.iterator().next().getNomeVendedor()));
+    public ReportBuilder withPiorVendedor(Optional<Venda> venda) {
+        venda.ifPresent(v -> builder.append("O pior vendedor: ")
+                .append(v.getNomeVendedor()));
 
         return this;
     }
