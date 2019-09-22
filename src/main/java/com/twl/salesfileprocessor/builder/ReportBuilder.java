@@ -45,7 +45,7 @@ public class ReportBuilder {
      * @param quantidadeClientes Quantidade de clientes
      * @return {@link ReportBuilder}
      */
-    public ReportBuilder withQuantidadeClientes(Long quantidadeClientes) {
+    public ReportBuilder withQuantidadeClientes(Integer quantidadeClientes) {
 
         if (quantidadeClientes > 0) {
             builder.append("Quantidade de clientes no arquivo de entrada: ")
@@ -61,7 +61,7 @@ public class ReportBuilder {
      * @param quantidadeVendedores Quantidade de vendedores
      * @return {@link ReportBuilder}
      */
-    public ReportBuilder withQuantidadeVendedores(Long quantidadeVendedores) {
+    public ReportBuilder withQuantidadeVendedores(Integer quantidadeVendedores) {
 
         if (quantidadeVendedores > 0) {
             builder.append("Quantidade de vendedores no arquivo de entrada: ")

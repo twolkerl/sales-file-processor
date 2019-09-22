@@ -13,6 +13,7 @@ import com.twl.salesfileprocessor.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.stream.Stream;
@@ -41,12 +42,12 @@ public class InputFileServiceImpl implements InputFileService {
     }
 
     @Override
-    public void process(Stream<String> fileLines) {
-        //
+    public void process(Stream<String> fileLines) throws IllegalArgumentException {
+
         fileLines.forEach(line -> {
-            //
+
             if (FileUtils.isValidInputLine(line)) {
-                //
+
                 LOGGER.info("##Linha valida");
                 String[] fields = line.split("ç");
                 TipoArquivoEnum tipoArquivo = TipoArquivoEnum.getValue(fields[0]);

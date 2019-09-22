@@ -86,7 +86,7 @@ public class ConverterUtils {
      *               </ul>
      * @return {@link Venda}
      */
-    public static Venda convertToVenda(String[] fields) {
+    public static Venda convertToVenda(String[] fields) throws IllegalArgumentException {
 
         String itemStr = fields[2];
 
@@ -115,12 +115,16 @@ public class ConverterUtils {
      *               </ul>
      * @return {@link Item} pertencente à {@link Venda}
      */
-    public static List<Item> convertToItens(String[] itemArray) {
+    public static List<Item> convertToItens(String[] itemArray) throws IllegalArgumentException {
 
         List<Item> itens = new ArrayList<>();
 
         for (int i = 0; i < 3; i++) {
             String[] itemFields = itemArray[i].split("-");
+
+            if (itemFields.length != 3) {
+                throw new IllegalArgumentException("Item inválido! Item: " + itemArray[i]);
+            }
             itens.add(new Item(Long.valueOf(itemFields[0].replaceAll("[\\[\\]]", "")),
                     Integer.valueOf(itemFields[1]),
                     new BigDecimal(itemFields[2].replaceAll("[\\[\\]]", ""))));

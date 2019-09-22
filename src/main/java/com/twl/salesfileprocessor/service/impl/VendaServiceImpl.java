@@ -47,7 +47,7 @@ public class VendaServiceImpl implements VendaService {
     }
 
     @Override
-    public Optional<Venda> findVendaWithPiorVendedor() {
+    public Optional<Venda> findVendaComPiorVendedor() {
 
         List<Venda> vendas = repository.findAll();
 
@@ -59,5 +59,10 @@ public class VendaServiceImpl implements VendaService {
 
         return vendas.stream()
                 .min(Comparator.comparing(Venda::getTotalVenda));
+    }
+
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
     }
 }

@@ -14,7 +14,6 @@ import java.util.List;
 @EqualsAndHashCode(exclude = {"itens", "totalVenda"})
 @ToString(exclude = {"itens", "totalVenda"})
 @NoArgsConstructor
-@AllArgsConstructor
 public class Venda {
 
     @Id
@@ -24,4 +23,9 @@ public class Venda {
     @Transient
     private BigDecimal totalVenda;
 
+    public Venda(Long idVenda, List<Item> itens, String nomeVendedor) {
+        this.idVenda = idVenda;
+        this.itens = itens;
+        this.nomeVendedor = nomeVendedor;
+    }
 }

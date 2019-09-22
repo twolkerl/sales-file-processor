@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.nio.file.*;
 import java.util.stream.Stream;
 
@@ -39,14 +40,11 @@ public class WatcherService {
 
         try (WatchService watchService = FileSystems.getDefault().newWatchService()) {
 
-            Path path = Paths.get(fileIn);
-            path.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
-
+            registerEvent(watchService);
             WatchKey watchKey;
 
             do {
                 watchKey = watchService.take();
-//                Path eventDir = keyMap.get(watchKey);
 
                 for (WatchEvent<?> event : watchKey.pollEvents()) {
                     Path eventPath = (Path) event.context();
@@ -54,21 +52,45 @@ public class WatcherService {
                     if (eventPath.toString().endsWith(".txt")) {
 
                         LOGGER.info("Iniciando a leitura e processamento do arquivo: " + eventPath);
-                        Stream<String> lines = FileUtils.read(fileIn, eventPath.toString());
-                        inputFileService.process(lines);
-                        LOGGER.info("Finalizada a leitura e processamento do arquivo: " + eventPath);
+
+                        try {
+
+                            Stream<String> lines = FileUtils.read(fileIn, eventPath.toString());
+                            inputFileService.process(lines);
+                            LOGGER.info("Finalizada a leitura e processamento do arquivo: " + eventPath);
+
+                        } catch (IllegalArgumentException e) {
+
+                            LOGGER.error("Ocorreu um erro ao tentar processar o arquivo. " +
+                                    "Existem linhas fora do padrão de entrada!");
+                            LOGGER.error("Erro: " + e.getMessage());
+
+                            outputFileService.wipeDatabase();
+                        } catch (Exception e) {
+
+                            LOGGER.error("Ocorreu um erro desconhecido ao tentar processar o arquivo. " +
+                                    "Por favor verifique o mesmo e tente novamente mais tarde.");
+
+                            outputFileService.wipeDatabase();
+                        }
+
+                        outputFileService.createReport(eventPath.toString());
 
                     } else {
-                        LOGGER.info("##Extensão não válida");
+                        LOGGER.info("Extensão de arquivo não válida! O arquivo deve ser no formato '.txt'");
                     }
-
-                    outputFileService.createReport(eventPath.toString());
                 }
-
             } while (watchKey.reset());
+
+        } catch (IOException e) {
+            LOGGER.error("Ocorreu um na inicialização do programa: " + e.getMessage());
         } catch (Exception e) {
-            // TODO
-            LOGGER.error("Ocorreu um erro: " + e.getMessage());
+            LOGGER.error("Ocorreu um erro inesperado: " + e.getMessage());
         }
+    }
+
+    private void registerEvent(WatchService watchService) throws IOException {
+        Path path = Paths.get(fileIn);
+        path.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
     }
 }

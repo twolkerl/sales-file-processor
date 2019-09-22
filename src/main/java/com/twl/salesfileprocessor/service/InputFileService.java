@@ -12,5 +12,5 @@ public interface InputFileService {
      *
      * @param fileLines {@link Stream} de {@link String} contendo cada linha do arquivo
      */
-    void process(Stream<String> fileLines);
+    void process(Stream<String> fileLines) throws IllegalArgumentException;
 }

@@ -29,7 +29,12 @@ public interface VendaService {
     /**
      * Busca a venda com o pior vendedor.
      *
-     * @return {Wlink Venda} com o pior vendedor
+     * @return {@link Venda} com o pior vendedor
      */
-    Optional<Venda> findVendaWithPiorVendedor();
+    Optional<Venda> findVendaComPiorVendedor();
+
+    /**
+     * Deleta todos os documentos.
+     */
+    void deleteAll();
 }
