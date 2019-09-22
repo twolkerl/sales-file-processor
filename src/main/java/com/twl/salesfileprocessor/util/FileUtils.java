@@ -1,5 +1,6 @@
 package com.twl.salesfileprocessor.util;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -55,5 +56,15 @@ public class FileUtils {
 
         // Por fim, valida se a primeira String contém 3 dígitos.
         return fields[0].length() == 3;
+    }
+
+    /**
+     * Método responsável por criar diretórios (pastas).
+     *
+     * @param dirPath estrutura de pastas a serem criadas
+     */
+    public static void createDir(String dirPath) {
+        File dir = new File(dirPath);
+        dir.mkdirs();
     }
 }

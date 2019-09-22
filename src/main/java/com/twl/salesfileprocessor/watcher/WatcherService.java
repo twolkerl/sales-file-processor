@@ -40,6 +40,7 @@ public class WatcherService {
 
         try (WatchService watchService = FileSystems.getDefault().newWatchService()) {
 
+            initialConfig();
             registerEvent(watchService);
             WatchKey watchKey;
 
@@ -87,6 +88,11 @@ public class WatcherService {
         } catch (Exception e) {
             LOGGER.error("Ocorreu um erro inesperado: " + e.getMessage());
         }
+    }
+
+    private void initialConfig() {
+        FileUtils.createDir(fileIn);
+        FileUtils.createDir(fileOut);
     }
 
     private void registerEvent(WatchService watchService) throws IOException {
