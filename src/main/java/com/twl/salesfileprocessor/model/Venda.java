@@ -11,6 +11,8 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode(exclude = "itens")
 @ToString(exclude = "itens")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Venda {
 
     @Id

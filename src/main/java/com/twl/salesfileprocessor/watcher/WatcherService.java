@@ -1,14 +1,18 @@
 package com.twl.salesfileprocessor.watcher;
 
+import com.twl.salesfileprocessor.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 @Component
 public class WatcherService {
@@ -37,13 +41,16 @@ public class WatcherService {
                 Path eventDir = keyMap.get(watchKey);
 
                 for (WatchEvent<?> event : watchKey.pollEvents()) {
-                    WatchEvent.Kind<?> kind = event.kind();
+//                    WatchEvent.Kind<?> kind = event.kind();
                     Path eventPath = (Path) event.context();
 
                     // TODO Fazer o método de processamento a partir daqui
                     if (eventPath.toString().endsWith(".txt")) {
-                        LOGGER.info("##Extensão válida");
-                        LOGGER.info("Novo arquivo recebido: " + eventPath);
+
+                        LOGGER.info("Iniciando a leitura do arquivo: " + eventPath);
+                        Stream<String> lines = FileUtils.read(fileIn, eventPath.toString());
+                        LOGGER.info("Finalizada a leitura do arquivo: " + eventPath);
+
                     } else {
                         LOGGER.info("##Extensão não válida");
                     }
