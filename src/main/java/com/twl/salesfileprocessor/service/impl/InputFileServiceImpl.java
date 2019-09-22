@@ -48,7 +48,6 @@ public class InputFileServiceImpl implements InputFileService {
 
             if (FileUtils.isValidInputLine(line)) {
 
-                LOGGER.info("##Linha valida");
                 String[] fields = line.split("ç");
                 TipoArquivoEnum tipoArquivo = TipoArquivoEnum.getValue(fields[0]);
 
@@ -63,8 +62,7 @@ public class InputFileServiceImpl implements InputFileService {
                         vendaService.save(ConverterUtils.convertToVenda(fields));
                         break;
                     default:
-                        // TODO
-                        LOGGER.error("Tipo de registro inválido!");
+                        throw new IllegalArgumentException("Tipo de registro inválido!");
                 }
 
             } else {

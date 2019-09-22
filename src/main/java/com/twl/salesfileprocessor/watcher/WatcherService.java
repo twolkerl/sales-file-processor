@@ -60,6 +60,14 @@ public class WatcherService {
                             inputFileService.process(lines);
                             LOGGER.info("Finalizada a leitura e processamento do arquivo: " + eventPath);
 
+                        } catch (IOException e) {
+
+                            LOGGER.error("Ocorreu um erro ao tentar processar o arquivo. " +
+                                    "O arquivo não pode ser lido, verifique seu conteúdo e charset!");
+                            LOGGER.error("Erro: " + e.getMessage());
+
+                            outputFileService.wipeDatabase();
+
                         } catch (IllegalArgumentException e) {
 
                             LOGGER.error("Ocorreu um erro ao tentar processar o arquivo. " +
@@ -71,6 +79,7 @@ public class WatcherService {
 
                             LOGGER.error("Ocorreu um erro desconhecido ao tentar processar o arquivo. " +
                                     "Por favor verifique o mesmo e tente novamente mais tarde.");
+                            LOGGER.error("Erro: " + e.getMessage());
 
                             outputFileService.wipeDatabase();
                         }
