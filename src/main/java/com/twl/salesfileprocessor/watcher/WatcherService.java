@@ -50,7 +50,7 @@ public class WatcherService {
                 for (WatchEvent<?> event : watchKey.pollEvents()) {
                     Path eventPath = (Path) event.context();
 
-                    if (eventPath.toString().endsWith(".txt")) {
+                    if (eventPath.toString().endsWith(".dat")) {
 
                         LOGGER.info("Iniciando a leitura e processamento do arquivo: " + eventPath);
 
@@ -84,10 +84,10 @@ public class WatcherService {
                             outputFileService.wipeDatabase();
                         }
 
-                        outputFileService.createReport(eventPath.toString());
+                        outputFileService.createReport(eventPath.toString().replace(".dat", ".done.dat"));
 
                     } else {
-                        LOGGER.info("Extensão de arquivo não válida! O arquivo deve ser no formato '.txt'");
+                        LOGGER.info("Extensão de arquivo não válida! O arquivo deve ser no formato '.dat'");
                     }
                 }
             } while (watchKey.reset());
