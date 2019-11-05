@@ -24,7 +24,7 @@ Os dados de venda possuem o identificador **003** e seguem o seguinte formato:
 ### Arquivos e conteúdos utilizados para teste:
 
 ---
-#### teste1.txt
+#### teste1.dat
 001ç1234567891234çPedroç50000
 
 001ç3245678865434çPauloç40000.99
@@ -38,7 +38,7 @@ Os dados de venda possuem o identificador **003** e seguem o seguinte formato:
 003ç08ç[1-34-10,2-33-1.50,3-40-0.10]çPaulo
 
 ---
-#### teste2.txt
+#### teste2.dat
 001ç1234567891234çPedroç50000
 
 001ç3245678865434çPauloç40000.99
@@ -65,7 +65,7 @@ Os dados de venda possuem o identificador **003** e seguem o seguinte formato:
 
 ---
 
-*Obs.: O leitor de arquivos foi configurado para aceitar apenas extensões '.txt' e charset UTF-8*
+*Obs.: O leitor de arquivos foi configurado para aceitar apenas extensões '.dat' e charset UTF-8*
 
 O sistema lê continuamente todos os novos arquivo inseridos no diretório:
 > data/in

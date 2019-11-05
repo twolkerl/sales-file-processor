@@ -27,8 +27,8 @@ public class VendaServiceImpl implements VendaService {
     }
 
     @Override
-    public void save(Venda venda) {
-        repository.save(venda);
+    public Venda save(Venda venda) {
+        return repository.save(venda);
     }
 
     @Override

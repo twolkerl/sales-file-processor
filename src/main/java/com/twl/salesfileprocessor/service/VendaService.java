@@ -16,8 +16,9 @@ public interface VendaService {
      * Salva uma nova venda.
      *
      * @param venda {@link Venda} a ser salva
+     * @return {@link Venda} salva
      */
-    void save(Venda venda);
+    Venda save(Venda venda);
 
     /**
      * Busca a venda mais cara.
