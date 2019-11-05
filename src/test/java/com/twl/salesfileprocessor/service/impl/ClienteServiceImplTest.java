@@ -23,7 +23,7 @@ public class ClienteServiceImplTest {
     private ClienteServiceImpl service;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         initMocks(this);
         service = new ClienteServiceImpl(clienteRepository);
     }

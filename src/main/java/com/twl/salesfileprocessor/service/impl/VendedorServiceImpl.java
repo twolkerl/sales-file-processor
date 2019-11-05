@@ -21,7 +21,7 @@ public class VendedorServiceImpl implements VendedorService {
     }
 
     @Override
-    public void save(Vendedor vendedor) {
-        repository.save(vendedor);
+    public Vendedor save(Vendedor vendedor) {
+        return repository.save(vendedor);
     }
 }

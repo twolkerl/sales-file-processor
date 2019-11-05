@@ -30,7 +30,7 @@ public class VendaServiceImplTest {
     private VendaServiceImpl service;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         initMocks(this);
         service = new VendaServiceImpl(vendaRepository);
     }

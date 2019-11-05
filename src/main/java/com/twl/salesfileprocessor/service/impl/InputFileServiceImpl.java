@@ -1,9 +1,6 @@
 package com.twl.salesfileprocessor.service.impl;
 
 import com.twl.salesfileprocessor.enums.TipoArquivoEnum;
-import com.twl.salesfileprocessor.model.Cliente;
-import com.twl.salesfileprocessor.model.Venda;
-import com.twl.salesfileprocessor.model.Vendedor;
 import com.twl.salesfileprocessor.service.ClienteService;
 import com.twl.salesfileprocessor.service.InputFileService;
 import com.twl.salesfileprocessor.service.VendaService;
@@ -13,9 +10,7 @@ import com.twl.salesfileprocessor.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.stream.Stream;
 
 /**
@@ -51,18 +46,21 @@ public class InputFileServiceImpl implements InputFileService {
                 String[] fields = line.split("ç");
                 TipoArquivoEnum tipoArquivo = TipoArquivoEnum.getValue(fields[0]);
 
-                switch (tipoArquivo) {
-                    case VENDEDOR:
-                        vendedorService.save(ConverterUtils.convertToVendedor(fields));
-                        break;
-                    case CLIENTE:
-                        clienteService.save(ConverterUtils.convertToCliente(fields));
-                        break;
-                    case VENDA:
-                        vendaService.save(ConverterUtils.convertToVenda(fields));
-                        break;
-                    default:
-                        throw new IllegalArgumentException("Tipo de registro inválido!");
+                try {
+                    switch (tipoArquivo) {
+                        case VENDEDOR:
+                            vendedorService.save(ConverterUtils.convertToVendedor(fields));
+                            break;
+                        case CLIENTE:
+                            clienteService.save(ConverterUtils.convertToCliente(fields));
+                            break;
+                        case VENDA:
+                            vendaService.save(ConverterUtils.convertToVenda(fields));
+                            break;
+                        default:
+                    }
+                } catch (NullPointerException e) {
+                    throw new IllegalArgumentException("Tipo de registro inválido!");
                 }
 
             } else {

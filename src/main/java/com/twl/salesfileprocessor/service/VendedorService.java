@@ -14,6 +14,7 @@ public interface VendedorService {
      * Salva um novo vendedor.
      *
      * @param vendedor {@link Vendedor} a ser salvo
+     * @return {@link Vendedor}
      */
-    void save(Vendedor vendedor);
+    Vendedor save(Vendedor vendedor);
 }
